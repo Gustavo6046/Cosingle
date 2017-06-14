@@ -251,11 +251,17 @@ AlgebraicOperand = (function(superClass) {
         } else if (op.name === "Subtraction") {
           this.diff += +other.value;
           return this;
-        } else if (op.name === "Addition") {
+        } else if (op.name === "Sum") {
           this.diff -= +other.value;
           return this;
+        } else if (op.name === "Multiplication") {
+          this.multiplier /= +other.value;
+          return this;
+        } else if (op.name === "Division") {
+          this.multiplier *= +other.value;
+          return this;
         } else {
-          throw new Error("Unsupported algebraic operation!");
+          throw new Error("Unsupported algebraic operation: '" + char + "'!");
           return this;
         }
       }
@@ -282,12 +288,22 @@ mathFuncs = {
 
 operators = [
   {
+    name: "Negation",
+    numargs: 1,
+    description: "Negate a number.",
+    step: ["Negate {l}.", "", "   -{l}"],
+    precedence: 7,
+    chars: ["'"],
+    solver: function(a) {
+      return -(+a);
+    }
+  }, {
     name: "Multiplication",
     numargs: 2,
     description: "Multiply two numbers.",
     step: ["Multiply {l} and {r}:", "", "   {l} × {r} = {result}"],
     precedence: 29,
-    chars: ["×", ".", "*"],
+    chars: ["×", "*"],
     solver: function(a, b) {
       return +a * +b;
     }

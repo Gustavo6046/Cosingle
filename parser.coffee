@@ -166,12 +166,20 @@ class AlgebraicOperand extends Operand
                     @diff += +(other.value)
                     return @
 
-                else if op.name == "Addition"
+                else if op.name == "Sum"
                     @diff -= +(other.value)
                     return @
 
+                else if op.name == "Multiplication"
+                    @multiplier /= +(other.value)
+                    return @
+
+                else if op.name == "Division"
+                    @multiplier *= +(other.value)
+                    return @
+
                 else
-                    throw new Error("Unsupported algebraic operation!")
+                    throw new Error("Unsupported algebraic operation: '#{char}'!")
                     return @
 
     valueOf: (a) =>
@@ -189,6 +197,21 @@ mathFuncs = {
 
 operators = [
     {
+        name: "Negation"
+        numargs: 1
+        description: "Negate a number."
+        step: [
+            "Negate {l}.",
+            "",
+            "   -{l}"
+        ]
+        precedence: 7
+        chars: ["'"]
+
+        solver: (a) ->
+            -+a
+    }
+    {
         name: "Multiplication"
         numargs: 2
         description: "Multiply two numbers."
@@ -198,7 +221,7 @@ operators = [
             "   {l} × {r} = {result}"
         ]
         precedence: 29
-        chars: ["×", ".", "*"]
+        chars: ["×", "*"]
 
         solver: (a, b) ->
             +a * +b

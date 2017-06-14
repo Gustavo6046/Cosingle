@@ -7,7 +7,7 @@ The API is `parser.js` and the command-line application is `main.js`.
 It has a buggy and quirked nature. So report all the bugs you find!
 
 ## Operators
-- Multiplication: "*", "."
+- Multiplication: "*"
 - Sum: "+"
 - Subtraction: "-"
 - Function: "@"
@@ -15,3 +15,4 @@ It has a buggy and quirked nature. So report all the bugs you find!
 - Division: "/", ":"
 - Power: "^", "´"
 - Root: "$"
+- Negation: "'" (in case of syntax nausea, use "0-" instead)
