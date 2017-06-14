@@ -224,7 +224,7 @@ AlgebraicOperand = (function(superClass) {
   };
 
   AlgebraicOperand.prototype.operate = function(block, others, char) {
-    var differences, i, j, l, len, len1, o, op, other, othersub, ref, subexp;
+    var differences, i, len, o, op, other, othersub, subexp;
     for (i = 0, len = others.length; i < len; i++) {
       o = others[i];
       if (o !== this) {
@@ -245,30 +245,17 @@ AlgebraicOperand = (function(superClass) {
         if (op.name === "Power") {
           this.exponent += +other.value - 1;
           return this;
-        }
-        if (op.name === "Root") {
+        } else if (op.name === "Root") {
           this.exponent -= +other.value - 1;
-          return this;
-        }
-        if (op.name === "Multiplication") {
-          throw new Error("Algebraic multiplication is not supported yet :(");
-        } else if (op.name === "Division") {
-          if (typeof other === "AlgebraicOperand") {
-            this.multiplier /= other.multiplier;
-            ref = other.letters;
-            for (j = 0, len1 = ref.length; j < len1; j++) {
-              l = ref[j];
-              if (indexOf.call(this.letters, l) >= 0) {
-                this.letters.splice(this.letters.indexOf(l));
-              }
-            }
-          }
           return this;
         } else if (op.name === "Subtraction") {
           this.diff += +other.value;
           return this;
         } else if (op.name === "Addition") {
           this.diff -= +other.value;
+          return this;
+        } else {
+          throw new Error("Unsupported algebraic operation!");
           return this;
         }
       }

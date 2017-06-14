@@ -158,21 +158,8 @@ class AlgebraicOperand extends Operand
                     @exponent += +(other.value) - 1
                     return @
 
-                if op.name == "Root"
+                else if op.name == "Root"
                     @exponent -= +(other.value) - 1
-                    return @
-
-                if op.name == "Multiplication"
-                    throw new Error("Algebraic multiplication is not supported yet :(")
-
-                else if op.name == "Division"
-                    if typeof other == "AlgebraicOperand"
-                        @multiplier /= other.multiplier
-
-                        for l in other.letters
-                            if l in @letters
-                                @letters.splice(@letters.indexOf(l))
-
                     return @
 
                 else if op.name == "Subtraction"
@@ -181,6 +168,10 @@ class AlgebraicOperand extends Operand
 
                 else if op.name == "Addition"
                     @diff -= +(other.value)
+                    return @
+
+                else
+                    throw new Error("Unsupported algebraic operation!")
                     return @
 
     valueOf: (a) =>
